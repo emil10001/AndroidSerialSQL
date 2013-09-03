@@ -23,12 +23,10 @@ public class GenericDBHelper extends SQLiteOpenHelper {
     public void onCreate(SQLiteDatabase db) {
         Set<String> tables = myDB.getTables();
 
-        db.beginTransaction();
         for (String table : tables) {
             Log.d(TAG, "exec " + table + ": " + myDB.getTableDefenition(table));
             db.execSQL(myDB.getTableDefenition(table));
         }
-        db.endTransaction();
     }
 
     @Override
