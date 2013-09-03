@@ -8,7 +8,7 @@ In your Android Gradle project:
 
     git submodule add git@github.com:emil10001/AndroidSerialSQL.git
 
-In your project's `settings.radle`:
+In your project's `settings.gradle`:
 
     include ':YourApp', ':AndroidSerialSQL'
 
