@@ -33,6 +33,12 @@ public class MainActivity extends Activity {
                         Log.d(TAG, "running callback, " + c.getCount());
                         while (c.moveToNext())
                             Log.d(TAG,"item: " + c.getInt(0) + " - " + c.getString(1));
+
+                        // uncomment to test upgrade
+//                        Cursor c2 = dd.getItemsTwo();
+//                        Log.d(TAG, "running callback, " + c2.getCount());
+//                        while (c2.moveToNext())
+//                            Log.d(TAG,"item: " + c2.getInt(0) + " - " + c2.getString(1));
                     }
                 });
             }

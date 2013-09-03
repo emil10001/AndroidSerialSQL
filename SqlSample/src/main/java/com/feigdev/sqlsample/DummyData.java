@@ -17,14 +17,32 @@ public class DummyData {
     private static final String TAG = "DummyData";
     private static final String DB_NAME = "DummyData";
     private static final int VERSION = 1;
+
     private static final String ITEMS = "items";
     private static final String ITEMS_TABLE_DEFINITION = "create table "
             + ITEMS + "( _id integer primary key autoincrement, item text);";
     private final DefineDB myDB = new DefineDB(DB_NAME, VERSION);
     private final AccessDB accessDB;
 
+    // uncomment to test upgrade
+//    private static final int VERSION = 2;
+//    private static final String TABLE_TWO = "two";
+//    private static final String TABLE_TWO_DEFINITION = "create table "
+//            + TABLE_TWO + "( _id integer primary key autoincrement, item text);";
+
     public DummyData(Context c, Runnable callback) {
         myDB.setTableDefenition(ITEMS, ITEMS_TABLE_DEFINITION);
+
+        // uncomment to test upgrade
+//        myDB.setTableDefenition(TABLE_TWO, TABLE_TWO_DEFINITION);
+//        myDB.setVersionUpgrade(VERSION, new UpgradeRunnable() {
+//            @Override
+//            public void run() {
+//                db.execSQL(TABLE_TWO_DEFINITION);
+//                Log.d(TAG,"onUpgrade");
+//            }
+//        });
+
         accessDB = new AccessDB(c, myDB);
         accessDB.addWriteTask(new WriterTask(DB_NAME, null) {
 
@@ -56,6 +74,7 @@ public class DummyData {
                                 break;
                         }
                         ContentValues values = new ContentValues();
+                        values.put("_id", i);
                         values.put("item", val);
                         Log.d(TAG, "insert " + values.toString());
                         db.insert(ITEMS, null, values);
@@ -76,6 +95,7 @@ public class DummyData {
                 db.beginTransaction();
                 try {
                     ContentValues values = new ContentValues();
+                    values.put("_id", 5);
                     values.put("item", "five");
                     db.insert(ITEMS, null, values);
                     db.setTransactionSuccessful();
@@ -88,6 +108,28 @@ public class DummyData {
             }
         });
 
+        // uncomment to test upgrade
+//        accessDB.addWriteTask(new WriterTask(DB_NAME, callback) {
+//
+//            @Override
+//            public void run() {
+//                SQLiteDatabase db = getDB();
+//                db.beginTransaction();
+//                try {
+//                    ContentValues values = new ContentValues();
+//                    values.put("_id", 0);
+//                    values.put("item", "zero");
+//                    db.insert(TABLE_TWO, null, values);
+//                    db.setTransactionSuccessful();
+//                } catch (Exception ex) {
+//                    Log.e(TAG, "failed to insert", ex);
+//                } finally {
+//                    db.endTransaction();
+//                }
+//                callback.run();
+//            }
+//        });
+
     }
 
     SQLiteDatabase getDB() {
@@ -97,5 +139,11 @@ public class DummyData {
     Cursor getItems() {
         return accessDB.getReadableDB().query(ITEMS, null, null, null, null, null, null);
     }
+
+    // uncomment to test upgrade
+//    Cursor getItemsTwo() {
+//        return accessDB.getReadableDB().query(TABLE_TWO, null, null, null, null, null, null);
+//    }
+
 
 }
