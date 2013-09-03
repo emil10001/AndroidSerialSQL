@@ -5,10 +5,10 @@ import android.database.sqlite.SQLiteDatabase;
 /**
  * Created by ejohn on 9/2/13.
  */
-public abstract class UpgradeRunnable implements Runnable {
+public abstract class WriterTask implements Runnable {
     private SQLiteDatabase db;
 
-    public UpgradeRunnable(String dbName) {
+    public WriterTask(String dbName) {
         this.db = AccessDB.databases.get(dbName).getWriter();
     }
 
