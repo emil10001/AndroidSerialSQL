@@ -17,7 +17,7 @@ public class AccessDB {
     private final SQLiteDatabase dbWrite, dbRead;
     ExecutorService executorService = new ThreadPoolExecutor(1, 1, 30, TimeUnit.SECONDS, writerQueue, new ThreadPoolExecutor.CallerRunsPolicy());
 
-    private AccessDB(Context context, DefineDB myDB) {
+    public AccessDB(Context context, DefineDB myDB) {
         dbHelper = new GenericDBHelper(context, myDB);
         dbWrite = dbHelper.getWritableDatabase();
         dbRead = dbHelper.getReadableDatabase();
