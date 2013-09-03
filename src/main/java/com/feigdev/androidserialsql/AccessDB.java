@@ -27,6 +27,10 @@ public class AccessDB {
         return dbRead;
     }
 
+    public void addWriteTask(WriterTask task){
+        executorService.execute(task);
+    }
+
     private SQLiteDatabase getWritableDB() {
         return dbWrite;
     }
