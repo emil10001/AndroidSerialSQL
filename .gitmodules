@@ -1,0 +1,3 @@
+[submodule "AndroidSerialSQL"]
+	path = AndroidSerialSQL
+	url = git@github.com:emil10001/AndroidSerialSQL.git

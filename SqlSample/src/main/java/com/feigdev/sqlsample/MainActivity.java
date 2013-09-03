@@ -1,15 +1,46 @@
 package com.feigdev.sqlsample;
 
-import android.os.Bundle;
 import android.app.Activity;
+import android.database.Cursor;
+import android.os.Bundle;
+import android.os.Handler;
+import android.util.Log;
 import android.view.Menu;
+import android.widget.ListView;
+import android.widget.SimpleCursorAdapter;
 
 public class MainActivity extends Activity {
+    private static final String TAG = "MainActivity";
+    private Handler handler = new Handler();
+    private ListView lv;
+    private SimpleCursorAdapter la;
+    private DummyData dd;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        lv = (ListView)findViewById(R.id.list);
+        Runnable callback = new Runnable() {
+            @Override
+            public void run() {
+                handler.post(new Runnable() {
+                    @Override
+                    public void run() {
+                        Cursor c = dd.getItems();
+                        la.swapCursor(c);
+                        la.notifyDataSetInvalidated();
+                        Log.d(TAG, "running callback, " + c.getCount());
+                        while (c.moveToNext())
+                            Log.d(TAG,"item: " + c.getInt(0) + " - " + c.getString(1));
+                    }
+                });
+            }
+        };
+
+        dd = new DummyData(this, callback);
+        la = new DummyAdapter(this, null);
+        lv.setAdapter(la);
     }
 
 
