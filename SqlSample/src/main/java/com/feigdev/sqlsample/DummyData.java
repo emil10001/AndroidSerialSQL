@@ -22,7 +22,6 @@ public class DummyData {
     private static final String ITEMS_TABLE_DEFINITION = "create table "
             + ITEMS + "( _id integer primary key autoincrement, item text);";
     private final DefineDB myDB = new DefineDB(DB_NAME, VERSION);
-    private final AccessDB accessDB;
 
     // uncomment to test upgrade
 //    private static final int VERSION = 2;
@@ -43,12 +42,11 @@ public class DummyData {
 //            }
 //        });
 
-        accessDB = new AccessDB(c, myDB);
-        accessDB.addWriteTask(new WriterTask(DB_NAME, null) {
+        AccessDB.addDB(c, myDB);
+        AccessDB.addWriteTask(new WriterTask(DB_NAME, null) {
 
             @Override
             public void run() {
-                SQLiteDatabase db = getDB();
                 db.beginTransaction();
                 try {
                     for (int i = 0; i < 5; i++) {
@@ -87,11 +85,10 @@ public class DummyData {
                 }
             }
         });
-        accessDB.addWriteTask(new WriterTask(DB_NAME, callback) {
+        AccessDB.addWriteTask(new WriterTask(DB_NAME, callback) {
 
             @Override
             public void run() {
-                SQLiteDatabase db = getDB();
                 db.beginTransaction();
                 try {
                     ContentValues values = new ContentValues();
@@ -109,11 +106,10 @@ public class DummyData {
         });
 
         // uncomment to test upgrade
-//        accessDB.addWriteTask(new WriterTask(DB_NAME, callback) {
+//        AccessDB.addWriteTask(new WriterTask(DB_NAME, callback) {
 //
 //            @Override
 //            public void run() {
-//                SQLiteDatabase db = getDB();
 //                db.beginTransaction();
 //                try {
 //                    ContentValues values = new ContentValues();
@@ -133,16 +129,16 @@ public class DummyData {
     }
 
     SQLiteDatabase getDB() {
-        return accessDB.getReadableDB();
+        return AccessDB.getReadableDB(DB_NAME);
     }
 
     Cursor getItems() {
-        return accessDB.getReadableDB().query(ITEMS, null, null, null, null, null, null);
+        return AccessDB.getReadableDB(DB_NAME).query(ITEMS, null, null, null, null, null, null);
     }
 
     // uncomment to test upgrade
 //    Cursor getItemsTwo() {
-//        return accessDB.getReadableDB().query(TABLE_TWO, null, null, null, null, null, null);
+//        return AccessDB.getReadableDB(DB_NAME).query(TABLE_TWO, null, null, null, null, null, null);
 //    }
 
 
