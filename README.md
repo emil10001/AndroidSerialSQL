@@ -26,6 +26,12 @@ In your project's `settings.gradle`:
 
     include ':YourApp', ':AndroidSerialSQL'
 
+In your app's `build.gradle`:
+
+    dependencies {
+        compile project(':AndroidSerialSQL')
+    }
+
 ## Usage
 
 There are a few steps to get this up and running. It should all be fairly straght-forward.
