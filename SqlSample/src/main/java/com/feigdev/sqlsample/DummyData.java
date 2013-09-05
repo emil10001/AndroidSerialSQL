@@ -128,11 +128,11 @@ public class DummyData {
 
     }
 
-    SQLiteDatabase getDB() {
+    static SQLiteDatabase getDB() {
         return AccessDB.getReadableDB(DB_NAME);
     }
 
-    Cursor getItems() {
+    static Cursor getItems() {
         return AccessDB.getReadableDB(DB_NAME).query(ITEMS, null, null, null, null, null, null);
     }
 
