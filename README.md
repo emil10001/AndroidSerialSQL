@@ -97,3 +97,5 @@ Handle upgrades by adding to the database defenition.
 ## Sample implementation
 
 Check out the [sample branch](tree/sample) for a working app that implements this library.
+
+By <a href="https://plus.google.com/u/0/110693175237378228684?rel=author">E John Feig</a>
