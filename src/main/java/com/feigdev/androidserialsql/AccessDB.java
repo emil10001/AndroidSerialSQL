@@ -18,7 +18,7 @@ public class AccessDB {
     private static final ExecutorService executorService = new ThreadPoolExecutor(1, 1, 30, TimeUnit.SECONDS, writerQueue, new ThreadPoolExecutor.CallerRunsPolicy());
 
     public static void addDB(Context context, DefineDB myDB) {
-        GenericDBHelper dbHelper = new GenericDBHelper(context, myDB);
+        GenericDBHelper dbHelper = new GenericDBHelper(context.getApplicationContext(), myDB);
         String dbName = myDB.getDbName();
         SQLiteDatabase dbWrite = dbHelper.getWritableDatabase();
         SQLiteDatabase dbRead = dbHelper.getReadableDatabase();
